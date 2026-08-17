@@ -1,0 +1,154 @@
+syntax = "proto3";
+
+package velony.conversation.v1;
+
+import "velony/conversation/v1/conversation.proto";
+import "velony/conversation/v1/conversation_user.proto";
+import "velony/conversation/v1/message.proto";
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/velony-app/conversation/api/velony/conversation/v1;v1";
+option java_multiple_files = true;
+option java_outer_classname = "ServiceProto";
+option java_package = "app.velony.conversation.v1";
+option objc_class_prefix = "VelonyConversationV1";
+
+// The conversation service.
+service ConversationService {
+  option (google.api.default_host) = "conversation.velony.app";
+
+  // Retrieves a conversation.
+  rpc GetConversation (GetConversationRequest) returns (Conversation) {
+    option (google.api.http) = {
+      get: "/v1/{name=conversations/*}"
+    };
+    option (google.api.method_signature) = "name";
+  }
+
+  // Lists conversations.
+  rpc ListConversations (ListConversationsRequest) returns (ListConversationsResponse) {
+    option (google.api.http) = {
+      get: "/v1/conversations"
+    };
+  }
+
+  // Creates a conversation.
+  rpc CreateConversation (CreateConversationRequest) returns (Conversation) {
+    option (google.api.http) = {
+      post: "/v1/conversations"
+      body: "conversation"
+    };
+    option (google.api.method_signature) = "conversation";
+  }
+
+  // Updates a conversation.
+  rpc UpdateConversation (UpdateConversationRequest) returns (Conversation) {
+    option (google.api.http) = {
+      patch: "/v1/{conversation.name=conversations/*}"
+      body : "conversation"
+    };
+    option (google.api.method_signature) = "conversation,update_mask";
+  }
+
+  // Deletes a conversation.
+  rpc DeleteConversation (DeleteConversationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/{name=conversations/*}"
+    };
+    option (google.api.method_signature) = "name";
+  }
+
+  // Replaces the avatar of a conversation.
+  rpc ReplaceConversationAvatar (ReplaceConversationAvatarRequest) returns (Conversation) {
+    option (google.api.http) = {
+      post: "/v1/{name=conversations/*}:replaceAvatar"
+      body: "*"
+    };
+  }
+
+  // Lists user memberships in a conversation.
+  rpc ListConversationUsers (ListConversationUsersRequest) returns (ListConversationUsersResponse) {
+    option (google.api.http) = {
+      get: "/v1/{parent=conversations/*}/users"
+    };
+    option (google.api.method_signature) = "parent";
+  }
+
+  // Creates a conversation user.
+  rpc CreateConversationUser (CreateConversationUserRequest) returns (ConversationUser) {
+    option (google.api.http) = {
+      post: "/v1/{parent=conversations/*}/users"
+      body: "conversation_user"
+    };
+    option (google.api.method_signature) = "parent,conversation_user";
+  }
+
+  // Updates a conversation user.
+  rpc UpdateConversationUser (UpdateConversationUserRequest) returns (ConversationUser) {
+    option (google.api.http) = {
+      patch: "/v1/{conversation_user.name=conversations/*/users/*}"
+      body : "conversation_user"
+    };
+    option (google.api.method_signature) = "conversation_user,update_mask";
+  }
+
+  // Deletes a conversation user.
+  rpc DeleteConversationUser (DeleteConversationUserRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/{name=conversations/*/users/*}"
+    };
+    option (google.api.method_signature) = "name";
+  }
+
+  // Retrieves a message.
+  rpc GetMessage (GetMessageRequest) returns (Message) {
+    option (google.api.http) = {
+      get: "/v1/{name=conversations/*/messages/*}"
+    };
+    option (google.api.method_signature) = "name";
+  }
+
+  // Lists messages in a conversation.
+  rpc ListMessages (ListMessagesRequest) returns (ListMessagesResponse) {
+    option (google.api.http) = {
+      get: "/v1/{parent=conversations/*}/messages"
+    };
+    option (google.api.method_signature) = "parent";
+  }
+
+  // Retrieves multiple messages.
+  rpc BatchGetMessages (BatchGetMessagesRequest) returns (BatchGetMessagesResponse) {
+    option (google.api.http) = {
+      get: "/v1/{parent=conversations/*}/messages:batchGet"
+    };
+  }
+
+  // Creates a message.
+  rpc CreateMessage (CreateMessageRequest) returns (Message) {
+    option (google.api.http) = {
+      post: "/v1/{parent=conversations/*}/messages"
+      body: "message"
+    };
+    option (google.api.method_signature) = "parent,message";
+  }
+
+  // Updates a message.
+  rpc UpdateMessage (UpdateMessageRequest) returns (Message) {
+    option (google.api.http) = {
+      patch: "/v1/{message.name=conversations/*/messages/*}"
+      body : "message"
+    };
+    option (google.api.method_signature) = "message,update_mask";
+  }
+
+  // Deletes a message.
+  rpc DeleteMessage (DeleteMessageRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/{name=conversations/*/messages/*}"
+    };
+    option (google.api.method_signature) = "name";
+  }
+}

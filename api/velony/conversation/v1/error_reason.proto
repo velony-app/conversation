@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package velony.conversation.v1;
+
+option go_package = "github.com/velony-app/conversation/api/velony/conversation/v1;v1";
+option java_multiple_files = true;
+option java_outer_classname = "ErrorReasonProto";
+option java_package = "app.velony.conversation.v1";
+option objc_class_prefix = "VelonyConversationV1";
+
+// Defines machine-readable error reasons returned by the Conversation API.
+//
+// These values are used as the `reason` field of `google.rpc.ErrorInfo` with
+// the error domain `conversation.velony.app`.
+//
+// This enum is not frozen and new values may be added in the future.
+enum ErrorReason {
+  // Do not use this default value.
+  ERROR_REASON_UNSPECIFIED = 0;
+
+  // The requested conversation does not exist.
+  CONVERSATION_NOT_FOUND = 1;
+
+  // The requested message does not exist.
+  MESSAGE_NOT_FOUND = 2;
+
+  // The requested conversation user does not exist.
+  CONVERSATION_USER_NOT_FOUND = 3;
+
+  // The user is already a member of the conversation.
+  CONVERSATION_USER_ALREADY_EXISTS = 4;
+
+  // The conversation contains child resources and cannot be deleted.
+  CONVERSATION_NOT_EMPTY = 5;
+
+  // The caller does not have permission to perform the requested operation.
+  INSUFFICIENT_PERMISSION = 6;
+
+  // A resource name has an invalid format.
+  RESOURCE_NAME_INVALID = 7;
+
+  // A resource does not belong to the parent specified in the request.
+  RESOURCE_PARENT_MISMATCH = 8;
+
+  // A batch get request does not contain any resource names.
+  BATCH_NAMES_EMPTY = 9;
+
+  // The update mask contains an invalid or unsupported field path.
+  UPDATE_MASK_INVALID = 10;
+
+  // The conversation title is invalid.
+  CONVERSATION_TITLE_INVALID = 11;
+
+  // The message content is invalid.
+  MESSAGE_CONTENT_INVALID = 12;
+
+  // The conversation user role is invalid or unsupported.
+  CONVERSATION_USER_ROLE_INVALID = 13;
+
+  // The avatar data is not a valid image.
+  AVATAR_DATA_INVALID = 14;
+
+  // The avatar MIME type is not supported.
+  AVATAR_MIME_TYPE_UNSUPPORTED = 15;
+
+  // The declared avatar MIME type does not match the avatar data.
+  AVATAR_MIME_TYPE_MISMATCH = 16;
+
+  // The avatar exceeds the maximum allowed size.
+  AVATAR_TOO_LARGE = 17;
+}

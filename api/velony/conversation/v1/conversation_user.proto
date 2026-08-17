@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+package velony.conversation.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/velony-app/conversation/api/velony/conversation/v1;v1";
+option java_multiple_files = true;
+option java_outer_classname = "ConversationUserProto";
+option java_package = "app.velony.conversation.v1";
+option objc_class_prefix = "VelonyConversationV1";
+
+// A user participating in a conversation.
+message ConversationUser {
+  option (google.api.resource) = {
+    type    : "conversation.velony.app/ConversationUser"
+    pattern : "conversations/{conversation}/users/{conversation_user}"
+    singular: "conversationUser"
+    plural  : "conversationUsers"
+  };
+
+  // The resource name of the conversation user.
+  string name = 1 [(google.api.field_behavior) = IDENTIFIER];
+
+  // The user participating in the conversation.
+  string user = 2 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "user.velony.app/User" }
+  ];
+
+  // The role of the user in the conversation.
+  string role = 3 [(google.api.field_behavior) = REQUIRED];
+
+  // The time when the conversation user was created.
+  google.protobuf.Timestamp create_time = 4 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // The time when the conversation user was last updated.
+  google.protobuf.Timestamp update_time = 5 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+// The request message for listing conversation user memberships.
+message ListConversationUsersRequest {
+  // The conversation whose user memberships are being listed.
+  string parent = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "conversation.velony.app/Conversation" }
+  ];
+
+  // The maximum number of conversation user memberships to return.
+  int32 page_size = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // A page token received from a previous ListConversationUsers call.
+  string page_token = 3 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// The response message for listing conversation user memberships.
+message ListConversationUsersResponse {
+  // The conversation user memberships.
+  repeated ConversationUser conversation_users = 1;
+
+  // A token for retrieving the next page.
+  string next_page_token = 2;
+
+  // The total number of conversation user memberships.
+  int32 total_size = 3;
+}
+
+// The request message for creating a conversation user.
+message CreateConversationUserRequest {
+  // The conversation in which to create the conversation user.
+  string parent = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "conversation.velony.app/Conversation" }
+  ];
+
+  // The conversation user to create.
+  ConversationUser conversation_user = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+// The request message for updating a conversation user.
+message UpdateConversationUserRequest {
+  // The conversation user to update.
+  ConversationUser conversation_user = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The fields to update.
+  google.protobuf.FieldMask update_mask = 2 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// The request message for deleting a conversation user.
+message DeleteConversationUserRequest {
+  // The resource name of the conversation user to delete.
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = { type: "conversation.velony.app/ConversationUser" }
+  ];
+}
